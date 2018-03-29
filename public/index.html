@@ -1,21 +1,101 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
   <head>
-    <title>NodeJS</title>
+    <title>Chess</title>
+    <link rel="icon" href="game.png">
     <link rel="stylesheet" type="text/css" href="./index.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
+            integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
   </head>
   <script src="/socket.io/socket.io.js"></script>
   <script src="./js/client.js"></script>
   <body>
+    <h1 class="text-center">Multiplayer Chess</h1>
     <form id="formPlay">
-      <div class="form-group">
-        <label for="nickname">Nickname:</label>
-        <input type="nickname" class="form-control" id="nickname">
+      <div class="row">
+        <div class="col-md-2">
+          <input type="nickname" class="form-control" placeholder="Nickname:" id="nickname">
+        </div>
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-chess"></i> Play
+          </button>
+        </div>
       </div>
-      <button class="btn btn-default" id="play">Play</button>
     </form>
   </body>
+</html>
+-->
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <script type="application/javascript">
+   function drawRect(ctx, x, y)
+   {
+     var drawX = 60;
+     var drawY = 60;
+     ctx.fillRect(x, y, drawX, drawY);
+     ctx.fillRect(x + 120, y, drawX, drawY);
+     ctx.fillRect(x + 240, y, drawX, drawY);
+     ctx.fillRect(x + 360, y, drawX, drawY);
+   }
+   function drawChessPieces(ctx, src, x, y)
+   {
+     var img = new Image();
+     img.onload = function() {
+       ctx.drawImage(img, x, y);
+     };
+     img.src = src;
+   }
+   function draw()
+   {
+      var canvas = document.getElementById('canvas');
+      if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        var whiteX = 70;
+        var whiteY = 70;
+        var blackX = 130;
+        var blackY = 70;
+
+        ctx.fillStyle = 'rgb(255, 255, 255)';
+        drawRect(ctx, whiteX, whiteY);
+        drawRect(ctx, blackX, blackY + 60);
+        drawRect(ctx, whiteX, blackY + 120);
+        drawRect(ctx, blackX, blackY + 180);
+        drawRect(ctx, whiteX, blackY + 240);
+        drawRect(ctx, blackX, blackY + 300);
+        drawRect(ctx, whiteX, blackY + 360);
+        drawRect(ctx, blackX, blackY + 420);
+        ctx.fillStyle = '#616161';
+        drawRect(ctx, blackX, blackY);
+        drawRect(ctx, whiteX, blackY + 60);
+        drawRect(ctx, blackX, blackY + 120);
+        drawRect(ctx, whiteX, blackY + 180);
+        drawRect(ctx, blackX, blackY + 240);
+        drawRect(ctx, whiteX, blackY + 300);
+        drawRect(ctx, blackX, blackY + 360);
+        drawRect(ctx, whiteX, blackY + 420);
+
+        drawChessPieces(ctx, 'tower.png', whiteX, whiteY);
+        drawChessPieces(ctx, 'horse.png', blackX, blackY);
+        drawChessPieces(ctx, 'bishop.png', whiteX + 120, whiteX);
+      }
+    }
+  </script>
+  <style>
+   html {
+     background-color: #E0E0E0;
+     max-height: 100%;
+     max-width: 100%;
+     overflow: hidden;
+   }
+  </style>
+ </head>
+ <body onload="draw();">
+   <canvas id="canvas" width="1500" height="1500"></canvas>
+ </body>
 </html>

@@ -6,6 +6,7 @@ var server = require('http').Server(app).listen(3000, ()=>{
 });
 var io = require('socket.io')(server);
 var nickname = "";
+var users = [];
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -21,10 +22,9 @@ io.of('/').on('connection', function(socket) {
 
   socket.on('play', function(data){
     nickname = data.nickname;
-    console.log("Hello, " + nickname);
     socket.emit('redirect', '/play');
-    socket.disconnect();
-    console.log("disconnected")
+    //socket.disconnect(false);
+    //console.log("disconnected");
   });
 
   socket.on('disconnect', function() {
@@ -34,7 +34,9 @@ io.of('/').on('connection', function(socket) {
 
 io.of('/play').on('connection', function(socket){
   console.log(nickname + " is connected in /play");
-  io.sockets.emit('newPlayer', nickname);
+  users.push(nickname);
+  socket.emit('newplayer', nickname);
+  io.of('/play').emit('appendPlayers', nickname);
 
   socket.on('disconnect', function(){
     console.log("disconnected from /play")
