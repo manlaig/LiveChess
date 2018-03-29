@@ -1,135 +1,34 @@
-<!--<!DOCTYPE html>
-<html>
-  <head>
-    <title>Chess</title>
-    <link rel="icon" href="game.png">
-    <link rel="stylesheet" type="text/css" href="./index.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
-            integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-  </head>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="./js/client.js"></script>
-  <body>
-    <h1 class="text-center">Multiplayer Chess</h1>
-    <form id="formPlay">
-      <div class="row">
-        <div class="col-md-2">
-          <input type="nickname" class="form-control" placeholder="Nickname:" id="nickname">
-        </div>
-        <div class="col-md-1">
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-chess"></i> Play
-          </button>
-        </div>
-      </div>
-    </form>
-  </body>
-</html>
--->
 <!DOCTYPE html>
 <html>
  <head>
   <meta charset="utf-8"/>
-  <script type="application/javascript">
-   function drawRect(ctx, x, y)
-   {
-     var drawX = 60;
-     var drawY = 60;
-     ctx.fillRect(x, y, drawX, drawY);
-     ctx.fillRect(x + 120, y, drawX, drawY);
-     ctx.fillRect(x + 240, y, drawX, drawY);
-     ctx.fillRect(x + 360, y, drawX, drawY);
-   }
-   function drawChessPieces(ctx, src, x, y)
-   {
-     var img = new Image();
-     img.onload = function() {
-       ctx.drawImage(img, x, y);
-     };
-     img.src = src;
-   }
-   function draw()
-   {
-      var canvas = document.getElementById('canvas');
-      if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
-        var whiteX = 70;
-        var whiteY = 70;
-        var blackX = 130;
-        var blackY = 70;
-
-        //white rectangles
-        ctx.fillStyle = 'rgb(255, 255, 255)';
-        drawRect(ctx, whiteX, whiteY);
-        drawRect(ctx, blackX, blackY + 60);
-        drawRect(ctx, whiteX, blackY + 120);
-        drawRect(ctx, blackX, blackY + 180);
-        drawRect(ctx, whiteX, blackY + 240);
-        drawRect(ctx, blackX, blackY + 300);
-        drawRect(ctx, whiteX, blackY + 360);
-        drawRect(ctx, blackX, blackY + 420);
-        //black rectangles
-        ctx.fillStyle = '#616161';
-        drawRect(ctx, blackX, blackY);
-        drawRect(ctx, whiteX, blackY + 60);
-        drawRect(ctx, blackX, blackY + 120);
-        drawRect(ctx, whiteX, blackY + 180);
-        drawRect(ctx, blackX, blackY + 240);
-        drawRect(ctx, whiteX, blackY + 300);
-        drawRect(ctx, blackX, blackY + 360);
-        drawRect(ctx, whiteX, blackY + 420);
-
-        //black pieces
-        drawChessPieces(ctx, 'tower-black.png', whiteX, whiteY);
-        drawChessPieces(ctx, 'horse-black.png', blackX, blackY);
-        drawChessPieces(ctx, 'bishop-black.png', whiteX + 120, whiteX);
-        drawChessPieces(ctx, 'queen-black.png', whiteX + 180, whiteX);
-        drawChessPieces(ctx, 'king-black.png', whiteX + 240, whiteX);
-        drawChessPieces(ctx, 'bishop-black.png', whiteX + 300, whiteX);
-        drawChessPieces(ctx, 'horse-black.png', whiteX + 360, whiteX);
-        drawChessPieces(ctx, 'tower-black.png', whiteX + 420, whiteX);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', blackX, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX + 120, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX + 180, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX + 240, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX + 300, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX + 360, whiteY + 60);
-        drawChessPieces(ctx, 'pawn-black.png', whiteX + 420, whiteY + 60);
-        //white pieces
-        drawChessPieces(ctx, 'tower-white.png', whiteX, whiteY + 420);
-        drawChessPieces(ctx, 'horse-white.png', blackX, whiteY + 420);
-        drawChessPieces(ctx, 'bishop-white.png', whiteX + 120, whiteY + 420);
-        drawChessPieces(ctx, 'queen-white.png', whiteX + 180, whiteY + 420);
-        drawChessPieces(ctx, 'king-white.png', whiteX + 240, whiteY + 420);
-        drawChessPieces(ctx, 'bishop-white.png', whiteX + 300, whiteY + 420);
-        drawChessPieces(ctx, 'horse-white.png', whiteX + 360, whiteY + 420);
-        drawChessPieces(ctx, 'tower-white.png', whiteX + 420, whiteY + 420);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', blackX, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX + 120, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX + 180, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX + 240, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX + 300, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX + 360, whiteY + 360);
-        drawChessPieces(ctx, 'pawn-white.png', whiteX + 420, whiteY + 360);
-
-      }
-    }
-  </script>
-  <style>
-   html {
-     background-color: #E0E0E0;
-     max-height: 100%;
-     max-width: 100%;
-     overflow: hidden;
-   }
-  </style>
+  <title>Chess</title>
+  <link rel="icon" href="game.png">
+  <link rel="stylesheet" type="text/css" href="./index.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
+          integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
  </head>
+ <script src="/socket.io/socket.io.js"></script>
+ <script type="application/javascript" src="./js/client.js"></script>
  <body onload="draw();">
-   <canvas id="canvas" width="1500" height="1500"></canvas>
+   <canvas id="canvas" width="550" height="550"></canvas>
+   <canvas id="pieces" width="550" height="550"></canvas>
+   <!--<h1 class="text-center">Multiplayer Chess</h1>
+   <form id="formPlay">
+     <div class="row">
+       <div class="col-md-2">
+         <input type="nickname" class="form-control" placeholder="Nickname:" id="nickname">
+       </div>
+       <div class="col-md-1">
+         <button type="submit" class="btn btn-primary">
+           <i class="fas fa-chess"></i> Play
+         </button>
+       </div>
+     </div>
+   </form>-->
  </body>
 </html>

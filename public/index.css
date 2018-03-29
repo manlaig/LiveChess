@@ -1,0 +1,14 @@
+html {
+  background-color: #E0E0E0;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#canvas {
+  position: absolute;
+}
+
+#pieces {
+  position: relative;
+}
