@@ -61,6 +61,7 @@
         var blackX = 130;
         var blackY = 70;
 
+        //white rectangles
         ctx.fillStyle = 'rgb(255, 255, 255)';
         drawRect(ctx, whiteX, whiteY);
         drawRect(ctx, blackX, blackY + 60);
@@ -70,6 +71,7 @@
         drawRect(ctx, blackX, blackY + 300);
         drawRect(ctx, whiteX, blackY + 360);
         drawRect(ctx, blackX, blackY + 420);
+        //black rectangles
         ctx.fillStyle = '#616161';
         drawRect(ctx, blackX, blackY);
         drawRect(ctx, whiteX, blackY + 60);
@@ -80,9 +82,41 @@
         drawRect(ctx, blackX, blackY + 360);
         drawRect(ctx, whiteX, blackY + 420);
 
-        drawChessPieces(ctx, 'tower.png', whiteX, whiteY);
-        drawChessPieces(ctx, 'horse.png', blackX, blackY);
-        drawChessPieces(ctx, 'bishop.png', whiteX + 120, whiteX);
+        //black pieces
+        drawChessPieces(ctx, 'tower-black.png', whiteX, whiteY);
+        drawChessPieces(ctx, 'horse-black.png', blackX, blackY);
+        drawChessPieces(ctx, 'bishop-black.png', whiteX + 120, whiteX);
+        drawChessPieces(ctx, 'queen-black.png', whiteX + 180, whiteX);
+        drawChessPieces(ctx, 'king-black.png', whiteX + 240, whiteX);
+        drawChessPieces(ctx, 'bishop-black.png', whiteX + 300, whiteX);
+        drawChessPieces(ctx, 'horse-black.png', whiteX + 360, whiteX);
+        drawChessPieces(ctx, 'tower-black.png', whiteX + 420, whiteX);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', blackX, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX + 120, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX + 180, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX + 240, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX + 300, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX + 360, whiteY + 60);
+        drawChessPieces(ctx, 'pawn-black.png', whiteX + 420, whiteY + 60);
+        //white pieces
+        drawChessPieces(ctx, 'tower-white.png', whiteX, whiteY + 420);
+        drawChessPieces(ctx, 'horse-white.png', blackX, whiteY + 420);
+        drawChessPieces(ctx, 'bishop-white.png', whiteX + 120, whiteY + 420);
+        drawChessPieces(ctx, 'queen-white.png', whiteX + 180, whiteY + 420);
+        drawChessPieces(ctx, 'king-white.png', whiteX + 240, whiteY + 420);
+        drawChessPieces(ctx, 'bishop-white.png', whiteX + 300, whiteY + 420);
+        drawChessPieces(ctx, 'horse-white.png', whiteX + 360, whiteY + 420);
+        drawChessPieces(ctx, 'tower-white.png', whiteX + 420, whiteY + 420);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', blackX, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX + 120, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX + 180, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX + 240, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX + 300, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX + 360, whiteY + 360);
+        drawChessPieces(ctx, 'pawn-white.png', whiteX + 420, whiteY + 360);
+
       }
     }
   </script>
