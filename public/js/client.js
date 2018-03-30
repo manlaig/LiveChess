@@ -19,27 +19,53 @@ $(function()
       moveFrom = getBoardLocation(event.pageX, event.pageY);
       userClick = getCoordinates(moveFrom);
       drawChessPieces(itemSelect, 'select.png', userClick.x, userClick.y);
-    }
-    else
+    } else
     {
       moveTo = getBoardLocation(event.pageX, event.pageY);
-      if(moveFrom != moveTo)
+      if(moveFrom === 'e1' && moveTo === 'g1')
+        socket.emit('switchKingTower', {from: 'e1', to: 'g1'});
+      else if(moveFrom === 'e1' && (moveTo === 'c1' || moveTo === 'b1'))
+        socket.emit('switchKingTower', {from: 'e1', to: 'c1'});
+      else if(moveFrom === 'e8' && moveTo === 'g8')
+        socket.emit('switchKingTower', {from: 'e8', to: 'g8'});
+      else if(moveFrom === 'e8' && (moveTo === 'c8' || moveTo === 'b8'))
+        socket.emit('switchKingTower', {from: 'e8', to: 'b8'});
+      else if(moveFrom != moveTo)
         socket.emit('newMove', {from: moveFrom, to: moveTo});
       itemSelect.clearRect(userClick.x, userClick.y, 60, 60);
     }
   });
 });
 
+socket.on('switchKing', function(data) {
+  var ctx = document.getElementById('pieces').getContext('2d');
+  var fromCoord = getCoordinates(data.from);
+  var toCoord = getCoordinates(data.to);
+  var imagedataTower;
+  var imagedataKing = ctx.getImageData(fromCoord.x, fromCoord.y, 60, 60);
+  if(toCoord.x > 310)
+  {
+    imagedataTower = ctx.getImageData(490, fromCoord.y, 60, 60);
+    ctx.putImageData(imagedataTower, toCoord.x - 60, toCoord.y);
+    ctx.clearRect(toCoord.x + 60, toCoord.y, 60, 60);
+    ctx.putImageData(imagedataKing, toCoord.x, toCoord.y);
+  } else
+  {
+    imagedataTower = ctx.getImageData(70, fromCoord.y, 60, 60);
+    ctx.putImageData(imagedataTower, toCoord.x + 60, toCoord.y);
+    ctx.clearRect(70, toCoord.y, 60, 60);
+    ctx.putImageData(imagedataKing, toCoord.x, toCoord.y);
+  }
+  ctx.clearRect(fromCoord.x, fromCoord.y, 60, 60);
+});
+
 socket.on('updateBoard', function(data) {
-  var pieces = document.getElementById('pieces');
-  if (pieces.getContext) {
-    var ctx = pieces.getContext('2d');
-    fromCoord = getCoordinates(data.from);
-    toCoord = getCoordinates(data.to);
+    var ctx = document.getElementById('pieces').getContext('2d');
+    var fromCoord = getCoordinates(data.from);
+    var toCoord = getCoordinates(data.to);
     var imagedata = ctx.getImageData(fromCoord.x, fromCoord.y, 60, 60);
     ctx.putImageData(imagedata, toCoord.x, toCoord.y);
     ctx.clearRect(fromCoord.x, fromCoord.y, 60, 60);
-  }
 });
 
 function getBoardLocation(x, y)

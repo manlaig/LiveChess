@@ -22,10 +22,14 @@ io.of('/').on('connection', function(socket) {
   console.log("New socket connected");
 
   socket.on('newMove', function(data) {
-    //TODO: render differently when king and tower switches
     if(chess.move(data))
       io.sockets.emit('updateBoard', data);
     console.log(chess.ascii());
+  });
+
+  socket.on('switchKingTower', function(data) {
+    chess.move(data);
+    io.sockets.emit('switchKing', data);
   });
 
   socket.on('disconnect', function() {
