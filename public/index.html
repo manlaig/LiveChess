@@ -5,7 +5,7 @@
   <link rel="icon" href="game.png">
   <link rel="stylesheet" type="text/css" href="./index.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js"
           integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
@@ -16,10 +16,45 @@
  <script type="application/javascript" src="./js/chess-game.js"></script>
  <body onload="draw();">
    <div class="row">
-     <div class="game">
+     <div id="game">
        <canvas id="board" width="550" height="550"></canvas>
        <canvas id="pieces" width="550" height="550"></canvas>
        <canvas id="selectItem" width="550" height="550"></canvas>
+     </div>
+     <div id="joinGame">
+       <form id="formJoin" class="form-group">
+         <div class="col-md-16">
+           <input type="text" class="form-control input-lg" placeholder="Nickname:" id="input-name"/>
+         </div>
+         <div class="col-md-16">
+           <button type="submit" class="btn btn-primary btn-block text-center" id="submit">
+             Start <i class="fa fa-chess"></i>
+           </button>
+         </div>
+       </form>
+     </div>
+     <div id="active" class="col-md-3 jumbotron">
+       <h3 class="text-center">Active Players <i class="fa fa-users"></i></h3>
+       <ul class="list-group" id="active-users"></ul>
+     </div>
+     <div id="chat" class="col-md-4">
+       <div class="jumbotron">
+         <h3 class="text-center">Messages <i class="fa fa-comments"></i></h3>
+         <ul class="list-group" id="messages">
+         </ul>
+       </div>
+       <form id="submitMessage" class="form-group">
+         <div class="row">
+           <div class="col-sm-9">
+             <input type="text" class="form-control input-lg" placeholder="Message:" id="input-message"/>
+           </div>
+           <div class="col-xs-3">
+             <button type="submit" class="btn btn-primary btn-block" id="submit">
+               Send <i class="fa fa-paper-plane"></i>
+             </button>
+           </div>
+         </div>
+       </form>
      </div>
    </div>
  </body>

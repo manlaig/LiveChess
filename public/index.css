@@ -1,12 +1,23 @@
 html {
-  background-color: #E0E0E0;
-  max-height: 100%;
-  max-width: 100%;
-  overflow: hidden;
+  background-color: #B0BEC5;
+  height: 100%;
+  width: 100%;
+}
+
+.row {
+  background-color: #B0BEC5;
+}
+
+#joinGame {
+  align-self: center;
+}
+
+#game, #active, #chat {
+  visibility: hidden;
 }
 
 #board {
-  position: fixed;
+  position: absolute;
   z-index: 0;
 }
 
@@ -18,4 +29,14 @@ html {
 #selectItem {
   position: relative;
   z-index: 1;
+}
+
+.name {
+  font-weight:bold;
+  color: #3F51B5;
+}
+
+#active, #chat {
+  top: 50px;
+  left: 14px;
 }
