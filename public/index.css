@@ -40,3 +40,7 @@ html {
   top: 50px;
   left: 14px;
 }
+
+li.span {
+  text-align: right;
+}

@@ -9,7 +9,7 @@ var Chess = require('chess.js').Chess;
 var chess = new Chess();
 var users = [];
 //var messages = [];
-var name = "";
+var name = "", color = "";
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -21,7 +21,8 @@ app.get('/', (req, res)=>{
 
 io.of('/').on('connection', function(socket) {
   console.log("New socket connected");
-  socket.emit('displayUsers', {total : users.length, all_users : users});
+  //change this later so that it displays the colors with names
+  socket.emit('displayUsers', users);
 
   socket.on('newMove', function(data) {
     //if valid move, then update the board
@@ -37,9 +38,11 @@ io.of('/').on('connection', function(socket) {
 
   socket.on('newUser', function(data) {
     // TODO: load all previous messages
-    users.push(data);
+    users.push({name: data, color: color});
     name = data;
-    io.sockets.emit('appendUser', data);
+    if(users.length === 1)  color = "white";
+    else  color = "black";
+    io.sockets.emit('appendUser', {name: name, color: color});
    });
 
   socket.on('newMessage', function(data) {

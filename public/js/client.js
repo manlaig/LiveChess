@@ -15,15 +15,21 @@ $(function() {
     }
   });
 
-  function addUser(name)
+  function addUser(data)
   {
-    $('#active-users').append('<li class="list-group-item">'+name+'</li>');
+    //<span class="badge badge-dark">Dark</span>
+    if(data.color === "white")
+      var str = '<li class="list-group-item">' + data.name +
+            '<span class="badge badge-pill badge-light">White</span></li>';
+    else
+      var str = '<li class="list-group-item">' + data.name +
+            '<span class="badge badge-pill badge-dark">Black</span></li>';
+    $('#active-users').append(str);
   }
 
   socket.on('displayUsers', function(data) {
-    var size = data.total;
-    for(var key in data.all_users)
-      addUser(data.all_users[key]);
+    for(var key in data)
+      addUser(data[key]);
   });
 
   socket.on('appendUser', function(data) {
