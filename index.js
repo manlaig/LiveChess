@@ -1,5 +1,3 @@
-/// TODO: add an intro on the top displaying details of the app
-
 var express = require('express');
 var app = express();
 var path = require('path');
@@ -33,8 +31,8 @@ io.of('/').on('connection', function(socket) {
   });
 
   socket.on('switchKingTower', function(data) {
-    chess.move(data);
-    io.sockets.emit('switchKing', data);
+    if(chess.move(data))
+      io.sockets.emit('switchKing', data);
   });
 
   socket.on('newUser', function(data) {
