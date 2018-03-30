@@ -17,7 +17,6 @@ $(function() {
 
   function addUser(data)
   {
-    //<span class="badge badge-dark">Dark</span>
     if(data.color === "white")
       var str = '<li class="list-group-item">' + data.name +
             '<span class="badge badge-pill badge-light">White</span></li>';
@@ -27,19 +26,14 @@ $(function() {
     $('#active-users').append(str);
   }
 
-  socket.on('displayUsers', function(data) {
-    for(var key in data)
-      addUser(data[key]);
-  });
-
   socket.on('appendUser', function(data) {
     addUser(data);
   });
 
   socket.on('updateUsers', function(data) {
     $('#active-users').empty();
-    for(var key in data)
-      addUser(data[key]);
+    for(var key in users)
+      addUser(users[key]);
   });
 
   $('#submitMessage').submit(function(e) {

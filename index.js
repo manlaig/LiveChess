@@ -9,7 +9,7 @@ var Chess = require('chess.js').Chess;
 var chess = new Chess();
 var users = [];
 //var messages = [];
-var name = "", color = "";
+var userName = "", userColor = "";
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -21,8 +21,7 @@ app.get('/', (req, res)=>{
 
 io.of('/').on('connection', function(socket) {
   console.log("New socket connected");
-  //change this later so that it displays the colors with names
-  socket.emit('displayUsers', users);
+  socket.emit('updateUsers', users);
 
   socket.on('newMove', function(data) {
     //if valid move, then update the board
@@ -37,12 +36,12 @@ io.of('/').on('connection', function(socket) {
   });
 
   socket.on('newUser', function(data) {
-    // TODO: load all previous messages
-    users.push({name: data, color: color});
-    name = data;
-    if(users.length === 1)  color = "white";
-    else  color = "black";
-    io.sockets.emit('appendUser', {name: name, color: color});
+    // TODO: load all previous messages using messages array
+    users.push({name: data, color: userColor});
+    userName = data;
+    if(users.length === 1)  userColor = "white";
+    else  userColor = "black";
+    io.sockets.emit('appendUser', {name: data, color: userColor});
    });
 
   socket.on('newMessage', function(data) {
@@ -51,7 +50,7 @@ io.of('/').on('connection', function(socket) {
    });
 
    socket.on('disconnect', function() {
-     var index = users.indexOf(name);
+     var index = users.indexOf(userName);
      users.splice(index, 1);
      io.sockets.emit('updateUsers', users);
      chess.reset();
