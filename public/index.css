@@ -6,17 +6,16 @@ html {
 }
 
 #board {
-  position: absolute;
+  position: fixed;
   z-index: 0;
 }
 
 #pieces {
-  position: relative;
+  position: absolute;
   z-index: 2;
 }
 
 #selectItem {
   position: relative;
-  right: 41%;
   z-index: 1;
 }

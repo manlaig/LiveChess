@@ -1,31 +1,31 @@
-var name = "";
-var selected = false;
-var moveFrom = "";
-var moveTo = "";
+//var name = "";
 var socket = io.connect();
 
 //these arrays are used to find locations of keypresses
-var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-var numbers = ['8', '7', '6', '5', '4', '3', '2', '1'];
+const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const numbers = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
 $(function()
 {
   var userClick;
-  var itemSelect = document.getElementById('selectItem');
+  var moveFrom = "";
+  var moveTo = "";
+  var selected = false;
+  var itemSelect = document.getElementById('selectItem').getContext('2d');
   $('#pieces').on('click', function(event){
     selected = !selected;
     if(selected)
     {
       moveFrom = getBoardLocation(event.pageX, event.pageY);
       userClick = getCoordinates(moveFrom);
-      drawChessPieces(itemSelect.getContext('2d'), 'select.png', userClick.x, userClick.y);
+      drawChessPieces(itemSelect, 'select.png', userClick.x, userClick.y);
     }
     else
     {
       moveTo = getBoardLocation(event.pageX, event.pageY);
       if(moveFrom != moveTo)
         socket.emit('newMove', {from: moveFrom, to: moveTo});
-      itemSelect.getContext('2d').clearRect(userClick.x, userClick.y, 60, 60);
+      itemSelect.clearRect(userClick.x, userClick.y, 60, 60);
     }
   });
 });
@@ -59,13 +59,13 @@ function getCoordinates(location)
 
 function drawRect(ctx, x, y)
 {
-  var drawX = 60;
-  var drawY = 60;
+  var drawX = 60, drawY = 60;
   ctx.fillRect(x, y, drawX, drawY);
   ctx.fillRect(x + 120, y, drawX, drawY);
   ctx.fillRect(x + 240, y, drawX, drawY);
   ctx.fillRect(x + 360, y, drawX, drawY);
 }
+
 function drawChessPieces(ctx, src, x, y)
 {
   var img = new Image();
@@ -74,13 +74,11 @@ function drawChessPieces(ctx, src, x, y)
   };
   img.src = src;
 }
+
 function draw()
 {
-   var board = document.getElementById('board');
-   var pieces = document.getElementById('pieces');
-   if (board.getContext) {
-     var ctx = board.getContext('2d');
-     var ctx2 = pieces.getContext('2d');
+     var ctx = document.getElementById('board').getContext('2d');
+     var ctx2 = document.getElementById('pieces').getContext('2d');
      var whiteX = 70;
      var whiteY = 70;
      var blackX = 130;
@@ -141,5 +139,4 @@ function draw()
      drawChessPieces(ctx2, 'pawn-white.png', whiteX + 300, whiteY + 360);
      drawChessPieces(ctx2, 'pawn-white.png', whiteX + 360, whiteY + 360);
      drawChessPieces(ctx2, 'pawn-white.png', whiteX + 420, whiteY + 360);
-   }
  }
