@@ -15,7 +15,15 @@
  <script type="application/javascript" src="./js/client.js"></script>
  <script type="application/javascript" src="./js/chess-game.js"></script>
  <body onload="draw();">
-   <div class="row">
+   <div id="intro" class="">
+     <div class="row">
+       <h1 id="title" class="col-md-10">Multiplayer Chess</h1>
+       <a href="https://github.com/manlaig/LiveChess" class="btn btn-lg text-center col-xs-1">
+         Source Code <i class="fa fa-file-code"></i>
+       </a>
+     </div>
+   </div>
+   <div class="row app">
      <div id="game">
        <canvas id="board" width="550" height="550"></canvas>
        <canvas id="pieces" width="550" height="550"></canvas>
@@ -28,7 +36,7 @@
          </div>
          <div class="col-md-16">
            <button type="submit" class="btn btn-primary btn-block text-center" id="submit">
-             Start <i class="fa fa-chess"></i>
+             Play <i class="fa fa-chess"></i>
            </button>
          </div>
        </form>

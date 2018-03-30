@@ -1,3 +1,5 @@
+/// TODO: add an intro on the top displaying details of the app
+
 var express = require('express');
 var app = express();
 var path = require('path');
@@ -21,7 +23,7 @@ app.get('/', (req, res)=>{
 
 io.of('/').on('connection', function(socket) {
   console.log("New socket connected");
-  socket.emit('updateUsers', users);
+  socket.emit('displayUsers', users);
 
   socket.on('newMove', function(data) {
     //if valid move, then update the board
@@ -37,10 +39,10 @@ io.of('/').on('connection', function(socket) {
 
   socket.on('newUser', function(data) {
     // TODO: load all previous messages using messages array
-    users.push({name: data, color: userColor});
     userName = data;
-    if(users.length === 1)  userColor = "white";
+    if(users.length % 2 === 0)  userColor = "white";
     else  userColor = "black";
+    users.push({name: data, color: userColor});
     io.sockets.emit('appendUser', {name: data, color: userColor});
    });
 
@@ -50,10 +52,14 @@ io.of('/').on('connection', function(socket) {
    });
 
    socket.on('disconnect', function() {
-     var index = users.indexOf(userName);
-     users.splice(index, 1);
-     io.sockets.emit('updateUsers', users);
-     chess.reset();
+     // only update the active players, if they were logged in
+     if(userName != "")
+     {
+       var index = users.indexOf(userName);
+       if(index != -1)  users.splice(index, 1);
+       io.sockets.emit('updateUsers', users);
+       chess.reset();
+     }
      console.log('disconnected');
   });
 });

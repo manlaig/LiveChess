@@ -12,6 +12,7 @@ $(function() {
       $('#game').css({'visibility': 'visible'});
       $('#active').css({'visibility': 'visible'});
       $('#chat').css({'visibility': 'visible'});
+      $('#intro').hide();
     }
   });
 
@@ -26,14 +27,23 @@ $(function() {
     $('#active-users').append(str);
   }
 
+  function addAllUsers(users)
+  {
+    for(var key in users)
+      addUser(users[key]);
+  }
+
+  socket.on('displayUsers', function(data) {
+    addAllUsers(data);
+  });
+
   socket.on('appendUser', function(data) {
     addUser(data);
   });
 
   socket.on('updateUsers', function(data) {
     $('#active-users').empty();
-    for(var key in users)
-      addUser(users[key]);
+    addAllUsers(data);
   });
 
   $('#submitMessage').submit(function(e) {
