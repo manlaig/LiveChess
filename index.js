@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var server = require('http').Server(app).listen(process.env.PORT || 3000, ()=>{
-  console.log("Listening on port 3000");
+  console.log("Listening for connections");
 });
 var io = require('socket.io')(server);
 var Chess = require('chess.js').Chess;
@@ -22,6 +22,7 @@ io.of('/').on('connection', function(socket) {
   console.log("New socket connected");
 
   socket.on('newMove', function(data) {
+    //if valid move, then update the board
     if(chess.move(data))
       io.sockets.emit('updateBoard', data);
     console.log(chess.ascii());
@@ -34,7 +35,6 @@ io.of('/').on('connection', function(socket) {
 
   socket.on('disconnect', function() {
     chess.reset();
-    //render chess pieces in initial position
     console.log("Socket disconnected");
   });
 });
