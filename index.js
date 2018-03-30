@@ -11,6 +11,7 @@ var Chess = require('chess.js').Chess;
 var chess = new Chess();
 var users = [];
 var userName = "", userColor = "";
+var signedIn = false;
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,6 +38,7 @@ io.of('/').on('connection', function(socket) {
   });
 
   socket.on('newUser', function(data) {
+    signedIn = true;
     userName = data;
     if(users.length % 2 === 0)  userColor = "white";
     else  userColor = "black";
@@ -50,14 +52,14 @@ io.of('/').on('connection', function(socket) {
 
    socket.on('disconnect', function() {
      // only updating the active players, if they were logged in
-     if(userName != "")
+     if(signedIn)
      {
        var index = getIndex(users, userName);
        if(index != -1)  users.splice(index, 1);
-       io.sockets.emit('updateUsers', users);
+       socket.broadcast.emit('updateUsers', users);
        chess.reset();
+       console.log('disconnected');
      }
-     console.log('disconnected');
   });
 });
 
@@ -65,5 +67,8 @@ function getIndex(users, name)
 {
   for(var item in users)
     if(users[item].name === name)
+    {
+      console.log("index: " + item);
       return item;
+    }
 }
