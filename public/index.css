@@ -5,10 +5,18 @@ html {
   overflow: hidden;
 }
 
-#canvas {
+#board {
   position: absolute;
+  z-index: 0;
 }
 
 #pieces {
   position: relative;
+  z-index: 2;
+}
+
+#selectItem {
+  position: relative;
+  right: 41%;
+  z-index: 1;
 }

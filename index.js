@@ -12,6 +12,7 @@ var users = [];
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/images')));
 app.get('/', (req, res)=>{
   res.sendFile(__dirname + '/public/index.html');
 });
@@ -20,12 +21,14 @@ io.of('/').on('connection', function(socket) {
   console.log("New socket connected");
 
   socket.on('newMove', function(data) {
-    chess.move(data);
+    if(chess.move(data))
+      io.sockets.emit('updateBoard', data);
     console.log(chess.ascii());
-    //TODO: only emit if move was successful
-    io.sockets.emit('updateBoard', data);
   });
+
   socket.on('disconnect', function() {
+    chess.reset();
+    //draw chess pieces in initial position
     console.log("Socket disconnected");
   });
 });

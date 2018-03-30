@@ -8,40 +8,32 @@ var socket = io.connect();
 var letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 var numbers = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
-$(function(){
-  //var $formPlay = $('#formPlay');
-  //var $nickname = $('#nickname');
-  /*
-  $formPlay.submit(function(e){
-    e.preventDefault();
-    if($nickname.val() != "")
-    {
-      name = $nickname.val();
-      socket.emit('play', {nickname : name});
-      console.log("Hello, " + name);
-    }
-  });
-  */
+$(function()
+{
+  var userClick;
+  var itemSelect = document.getElementById('selectItem');
   $('#pieces').on('click', function(event){
     selected = !selected;
     if(selected)
+    {
       moveFrom = getBoardLocation(event.pageX, event.pageY);
+      userClick = getCoordinates(moveFrom);
+      drawChessPieces(itemSelect.getContext('2d'), 'select.png', userClick.x, userClick.y);
+    }
     else
     {
       moveTo = getBoardLocation(event.pageX, event.pageY);
-      socket.emit('newMove', {from: moveFrom, to: moveTo});
+      if(moveFrom != moveTo)
+        socket.emit('newMove', {from: moveFrom, to: moveTo});
+      itemSelect.getContext('2d').clearRect(userClick.x, userClick.y, 60, 60);
     }
   });
 });
-/*
-socket.on('redirect', function(url) {
-  window.location.href = url;
-});
-*/
+
 socket.on('updateBoard', function(data) {
-  var canvas = document.getElementById('pieces');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
+  var pieces = document.getElementById('pieces');
+  if (pieces.getContext) {
+    var ctx = pieces.getContext('2d');
     fromCoord = getCoordinates(data.from);
     toCoord = getCoordinates(data.to);
     var imagedata = ctx.getImageData(fromCoord.x, fromCoord.y, 60, 60);
@@ -84,10 +76,10 @@ function drawChessPieces(ctx, src, x, y)
 }
 function draw()
 {
-   var canvas = document.getElementById('canvas');
+   var board = document.getElementById('board');
    var pieces = document.getElementById('pieces');
-   if (canvas.getContext) {
-     var ctx = canvas.getContext('2d');
+   if (board.getContext) {
+     var ctx = board.getContext('2d');
      var ctx2 = pieces.getContext('2d');
      var whiteX = 70;
      var whiteY = 70;
