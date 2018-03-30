@@ -10,7 +10,6 @@ var io = require('socket.io')(server, { wsEngine: 'ws' });
 var Chess = require('chess.js').Chess;
 var chess = new Chess();
 var users = [];
-//var messages = [];
 var userName = "", userColor = "";
 
 app.use(express.static(__dirname));
@@ -38,7 +37,6 @@ io.of('/').on('connection', function(socket) {
   });
 
   socket.on('newUser', function(data) {
-    // TODO: load all previous messages using messages array
     userName = data;
     if(users.length % 2 === 0)  userColor = "white";
     else  userColor = "black";
@@ -47,15 +45,14 @@ io.of('/').on('connection', function(socket) {
    });
 
   socket.on('newMessage', function(data) {
-    //messages.push(data.message);
     io.sockets.emit('appendMessage', data);
    });
 
    socket.on('disconnect', function() {
-     // only update the active players, if they were logged in
+     // only updating the active players, if they were logged in
      if(userName != "")
      {
-       var index = users.indexOf(userName);
+       var index = getIndex(users, userName);
        if(index != -1)  users.splice(index, 1);
        io.sockets.emit('updateUsers', users);
        chess.reset();
@@ -63,3 +60,10 @@ io.of('/').on('connection', function(socket) {
      console.log('disconnected');
   });
 });
+
+function getIndex(users, name)
+{
+  for(var item in users)
+    if(users[item].name === name)
+      return item;
+}
