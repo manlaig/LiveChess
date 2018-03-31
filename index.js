@@ -28,13 +28,9 @@ io.of('/').on('connection', function(socket) {
     if(chess.move(data))
     {
       io.sockets.emit('updateBoard', data);
-      //change turn
-      if(chess.turn() === 'b')
-        var turn = 1;
-      else
-        var turn = 0;
-      io.sockets.emit('switchTurn', turn);
-    }
+      io.sockets.emit('switchTurn', chess.turn());
+    } else
+      socket.emit('illegalMove');
     if(chess.game_over())
       io.sockets.emit('game_over');
     console.log(chess.ascii());

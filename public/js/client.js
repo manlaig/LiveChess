@@ -1,7 +1,7 @@
 var socket = io.connect();
 
 $(function() {
-  var name = "";
+  var name = "", side = "";
 
   $('#formJoin').submit(function(e) {
     e.preventDefault();
@@ -20,11 +20,14 @@ $(function() {
   function addUser(data)
   {
     if(data.color === "White")
-      var str = '<li class="list-group-item">' + data.name +
-      '<span class="badge badge-pill badge-light">' + data.color + '</span></li>';
+      var str = '<li class="list-group-item"><i class="fa fa-arrow-right" id="white"></i>'
+              + data.name + '<span class="badge badge-pill badge-light">White</span></li>';
+    else if(data.color === "Black")
+      var str = '<li class="list-group-item"><i class="fa fa-arrow-right" id="black" style="visibility:hidden;"></i>'
+              + data.name + '<span class="badge badge-pill badge-dark">Black</span></li>';
     else
-      var str = '<li class="list-group-item">' + data.name +
-      '<span class="badge badge-pill badge-dark">' + data.color + '</span></li>';
+    var str = '<li class="list-group-item">'+ data.name
+            + '<span class="badge badge-pill badge-dark">Spectator</span></li>';
     $('#active-users').append(str);
   }
 
@@ -47,8 +50,24 @@ $(function() {
     addAllUsers(data);
   });
 
+  socket.on('illegalMove', function() {
+    alert("Illegal Move!");
+  });
+
   socket.on('game_over', function() {
     alert('Game Over');
+  });
+
+  socket.on('switchTurn', function(data) {
+    if(data === 'b')
+    {
+      $('#white').css({'visibility': 'hidden'});
+      $('#black').css({'visibility': 'visible'});
+    } else
+    {
+      $('#black').css({'visibility': 'hidden'});
+      $('#white').css({'visibility': 'visible'});
+    }
   });
 
   $('#submitMessage').submit(function(e) {
