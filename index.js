@@ -4,6 +4,8 @@ var path = require('path');
 var server = require('http').Server(app).listen(process.env.PORT || 3000);
 var io = require('socket.io')(server, { wsEngine: 'ws' });
 var Chess = require('chess.js').Chess;
+var chess = new Chess();
+var users = [];
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -14,10 +16,9 @@ app.get('/', (req, res)=>{
 });
 
 io.of('/').on('connection', function(socket) {
-  var chess = new Chess();
-  var users = [];
   var userName = "", userColor = "";
   var signedIn = false;
+  var turn = 0;  // 0 is white's turn
 
   console.log("New socket connected");
   socket.emit('displayUsers', users);
@@ -25,7 +26,15 @@ io.of('/').on('connection', function(socket) {
   socket.on('newMove', function(data) {
     //if valid move, then update the board
     if(chess.move(data))
+    {
       io.sockets.emit('updateBoard', data);
+      //change turn
+      if(chess.turn() === 'b')
+        var turn = 1;
+      else
+        var turn = 0;
+      io.sockets.emit('switchTurn', turn);
+    }
     if(chess.game_over())
       io.sockets.emit('game_over');
     console.log(chess.ascii());
@@ -39,8 +48,10 @@ io.of('/').on('connection', function(socket) {
   socket.on('newUser', function(data) {
     signedIn = true;
     userName = data;
-    if(users.length % 2 === 0)  userColor = "white";
-    else  userColor = "black";
+    console.log("length: " + users.length);
+    if(users.length === 0)  userColor = "White";
+    else if(users.length === 1)  userColor = "Black";
+    else  userColor = "Spectator";
     users.push({name: data, color: userColor});
     io.sockets.emit('appendUser', {name: data, color: userColor});
    });

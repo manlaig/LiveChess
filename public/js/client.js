@@ -19,12 +19,12 @@ $(function() {
 
   function addUser(data)
   {
-    if(data.color === "white")
+    if(data.color === "White")
       var str = '<li class="list-group-item">' + data.name +
-            '<span class="badge badge-pill badge-light">White</span></li>';
+      '<span class="badge badge-pill badge-light">' + data.color + '</span></li>';
     else
       var str = '<li class="list-group-item">' + data.name +
-            '<span class="badge badge-pill badge-dark">Black</span></li>';
+      '<span class="badge badge-pill badge-dark">' + data.color + '</span></li>';
     $('#active-users').append(str);
   }
 
