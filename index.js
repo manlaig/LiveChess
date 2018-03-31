@@ -27,6 +27,8 @@ io.of('/').on('connection', function(socket) {
     //if valid move, then update the board
     if(chess.move(data))
       io.sockets.emit('updateBoard', data);
+    if(chess.game_over())
+      io.sockets.emit('game_over');
     console.log(chess.ascii());
   });
 

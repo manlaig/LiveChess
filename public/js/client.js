@@ -46,6 +46,10 @@ $(function() {
     addAllUsers(data);
   });
 
+  socket.on('game_over', function() {
+    alert('Game Over');
+  });
+
   $('#submitMessage').submit(function(e) {
     e.preventDefault();
     var userInput = $('#input-message').val();
