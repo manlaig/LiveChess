@@ -1,15 +1,9 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var server = require('http').Server(app).listen(process.env.PORT || 3000, ()=>{
-  console.log("Listening for connections");
-});
+var server = require('http').Server(app).listen(process.env.PORT || 3000);
 var io = require('socket.io')(server, { wsEngine: 'ws' });
 var Chess = require('chess.js').Chess;
-var chess = new Chess();
-var users = [];
-var userName = "", userColor = "";
-var signedIn = false;
 
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,6 +14,11 @@ app.get('/', (req, res)=>{
 });
 
 io.of('/').on('connection', function(socket) {
+  var chess = new Chess();
+  var users = [];
+  var userName = "", userColor = "";
+  var signedIn = false;
+
   console.log("New socket connected");
   socket.emit('displayUsers', users);
 

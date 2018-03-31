@@ -56,10 +56,8 @@ function draw()
 {
      var ctx = document.getElementById('board').getContext('2d');
      var ctx2 = document.getElementById('pieces').getContext('2d');
-     var whiteX = 70;
-     var whiteY = 70;
-     var blackX = 130;
-     var blackY = 70;
+     var whiteX = 70, whiteY = 70;
+     var blackX = 130, blackY = 70;
 
      //white board rectangles
      ctx.fillStyle = 'rgb(255, 255, 255)';

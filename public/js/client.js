@@ -1,7 +1,8 @@
-var name = "";
 var socket = io.connect();
 
 $(function() {
+  var name = "";
+
   $('#formJoin').submit(function(e) {
     e.preventDefault();
     if($('#input-name').val() != "")
