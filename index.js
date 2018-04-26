@@ -71,6 +71,7 @@ io.of('/').on('connection', function(socket) {
   });
 });
 
+// get the index of name in users
 function getIndex(users, name)
 {
   for(var item in users)
