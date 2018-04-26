@@ -47,7 +47,7 @@ a {
 
 #active, #chat {
   top: 50px;
-  left: 14px;
+  /*left: 14px;*/
 }
 
 li.span {
