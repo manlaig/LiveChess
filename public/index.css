@@ -1,7 +1,8 @@
 html {
   background-color: #B0BEC5;
-  height: 100%;
-  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 a {
