@@ -3,6 +3,9 @@ var socket = io.connect();
 $(function() {
   var name = "", side = "";
 
+  $('#game').hide();
+  $('#active').hide();
+  $('#chat').hide();
   $('#formJoin').submit(function(e) {
     e.preventDefault();
     if($('#input-name').val() != "")
@@ -10,9 +13,9 @@ $(function() {
       name = $('#input-name').val();
       socket.emit('newUser', name);
       $('#joinGame').hide();
-      $('#game').css({'visibility': 'visible'});
-      $('#active').css({'visibility': 'visible'});
-      $('#chat').css({'visibility': 'visible'});
+      $('#game').show();
+      $('#active').show();
+      $('#chat').show();
       $('#intro').hide();
     }
   });

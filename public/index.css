@@ -21,10 +21,8 @@ a {
 
 #joinGame {
   align-self: center;
-}
-
-#game, #active, #chat {
-  visibility: hidden;
+  margin: auto;
+  padding: 70px 0;
 }
 
 #board {

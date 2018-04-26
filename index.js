@@ -1,7 +1,9 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var server = require('http').Server(app).listen(process.env.PORT || 3000);
+var server = require('http').Server(app).listen(process.env.PORT || 3000, ()=>{
+  console.log("Listening on port 3000");
+});
 var io = require('socket.io')(server, { wsEngine: 'ws' });
 var Chess = require('chess.js').Chess;
 var chess = new Chess();
@@ -24,7 +26,7 @@ io.of('/').on('connection', function(socket) {
   socket.emit('displayUsers', users);
 
   socket.on('newMove', function(data) {
-    //if valid move, then update the board
+    //if valid move, then update the board and switch turn
     if(chess.move(data))
     {
       io.sockets.emit('updateBoard', data);
